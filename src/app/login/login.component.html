@@ -6,7 +6,7 @@
             <input type="email" class="form-control" formControlName="email" placeholder="name@example.com">
         </div>
         <div *ngIf="myForm.get('email')?.invalid && (myForm.get('email')?.dirty || myForm.get('email')?.touched)">
-            <div *ngIf="myForm.get('email')?.errors?.['required']">Email is required.</div>
+            <div *ngIf="myForm.get('email')?.errors?.['required']" style="color:red">Email is required.</div>
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Password *</label>
@@ -14,12 +14,12 @@
         </div>
         <div
             *ngIf="myForm.get('password')?.invalid && (myForm.get('password')?.dirty || myForm.get('password')?.touched)">
-            <div *ngIf="myForm.get('password')?.errors?.['required']">Password is required.</div>
+            <div *ngIf="myForm.get('password')?.errors?.['required']" style="color:red">Password is required.</div>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <a [routerLink]="['./registration']">Register</a>
+        <br>
+        <a [routerLink]="['../registration']">Register</a>
     </form>
 </div>
 <div>
-
 </div>

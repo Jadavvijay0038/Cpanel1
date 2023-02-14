@@ -1,1 +1,120 @@
-<p>registration works!</p>
+<div class="container">
+    <form [formGroup]="RegistrationForm">
+        <br>
+        <div>
+            <label for="full_name">Full Name: *</label>
+            <input type="text" class="form-control" id="full_name" name="full_name" formControlName="name">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="mobile_number">Mobile Number: *</label>
+            <input type="tel" class="form-control" id="mobile_number" name="mobile_number" formControlName="mobile">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="email">Email: *</label>
+            <input type="email" class="form-control" id="email" name="email" formControlName="email">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="password">Password: *</label>
+            <input type="password" class="form-control" id="password" name="password" formControlName="password">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="confirm_password">Confirm Password: *</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                formControlName="confirm">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label for="date_of_birth">Date of Birth: *</label>
+            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" formControlName="dob">
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label>Gender: *</label>
+            <div>
+                <input class="form-check-input" type="radio" id="male" name="gender" value="male"
+                    formControlName="gender">
+                <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div>
+                <input class="form-check-input" type="radio" id="female" name="gender" formControlName="gender"
+                    value="female">
+                <label class="form-check-label" for="female">Female</label>
+            </div>
+            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                class="text-danger">
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                    alphabets.</div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <label>Hobbies: *</label>
+            <div>
+                <div class="form-check">
+                    <input class="form-check-input hobby" type="checkbox" id="reading" name="hobbies[]" value="reading">
+                    <label class="form-check-label" for="reading" formControlName="hobbies">Reading</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input hobby" type="checkbox" id="dancing" name="hobbies[]" value="dancing">
+                    <label class="form-check-label" for="dancing" formControlName="hobbies">Dancing</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input hobby" type="checkbox" id="coding" name="hobbies[]" value="coding">
+                    <label class="form-check-label" for="coding" formControlName="hobbies">Coding</label>
+                </div>
+                <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+                    class="text-danger">
+                    <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
+                    <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                        alphabets.</div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success" [disabled]="RegistrationForm.invalid">Register</button>
+        <br>
+        <a [routerLink]="['login']">Login</a>
+    </form>
+
+</div>

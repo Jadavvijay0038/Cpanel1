@@ -1,0 +1,30 @@
+.container {
+    -webkit-box-shadow: 10px 10px 10px 10px #828282;
+    -moz-box-shadow: 10px 10px 10px 10px #828282;
+    box-shadow: 10px 10px 10px 10px #828282;
+    margin-top: 100px;
+    border-radius: 5px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 30%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #E4E9F1;
+    justify-content: center;
+}
+
+.container form {
+    margin: 10px;
+}
+
+.toast {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+  }

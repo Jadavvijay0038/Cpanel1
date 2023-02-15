@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,FormControl,Validator, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validator, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-export interface userdata {
-  name: string,
-  mobileNo: string,
-  email: string,
-  password: string,
-  dob: string,
-  gender: string,
-  usertype: number
-}
+import { AuthServiceService } from '../auth-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,32 +9,25 @@ export interface userdata {
 })
 export class LoginComponent implements OnInit {
   myForm: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router) { }
-  AlluserData: Array<userdata> = [];
-  defaultUser: userdata = {
-    name: "vijay",
-    password: "12345",
-    mobileNo: '9725510022',
-    email: 'jadavvijay0@gmail.com',
-    dob: '06-12-1995',
-    gender: 'male',
-    usertype: 1
-  }
+  isSubmited: boolean = false;
+  constructor(private fb: FormBuilder, 
+    private router: Router,
+    private AuthService:AuthServiceService) {
 
+  }
   ngOnInit(): void {
     localStorage.removeItem('islogin');
-    this.AlluserData.push(this.defaultUser);
-    localStorage.setItem('userdata', JSON.stringify(this.AlluserData));
     this.myForm = this.fb.group({
-      email: new FormControl('',Validators.required),
-      password: new FormControl('',Validators.required)
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
     });
   }
 
   public onSubmit() {
+    this.isSubmited = true;
     if (this.myForm.valid) {
       const { email, password } = this.myForm.value;
-      const isValid = this.checkUsername(email, password);
+      const isValid = this.AuthService.checkUsername(email, password);
       if (isValid) {
         localStorage.setItem('islogin', 'true');
         this.router.navigate(['/list']);
@@ -58,8 +42,11 @@ export class LoginComponent implements OnInit {
   public checkUsername(username: string, password: string): boolean {
     const userdata = JSON.parse(localStorage.getItem('userdata') || '[]');
     for (const element of userdata) {
-      if (element.name === username || element.mobileNo === username) {
-        return element.password === password;
+      if (element.email === username || element.mobile === username) {
+        if (element.password === password) {
+          sessionStorage.setItem('loginuser', JSON.stringify(element));
+          return true
+        }
       }
     }
     return false;

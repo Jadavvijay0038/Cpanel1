@@ -6,19 +6,19 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UniqueNumberValidator, UniqueEmailValidator } from './registration/UniqueNumberValidator';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent,
-
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [UniqueNumberValidator, UniqueEmailValidator],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

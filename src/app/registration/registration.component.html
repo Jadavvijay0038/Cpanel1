@@ -1,13 +1,13 @@
 <div class="container">
-    <form [formGroup]="RegistrationForm">
+    <form [formGroup]="RegistrationForm" (ngSubmit)="onSubmit()">
         <br>
         <div>
             <label for="full_name">Full Name: *</label>
             <input type="text" class="form-control" id="full_name" name="full_name" formControlName="name">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
                 class="text-danger">
                 <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                <div *ngIf="RegistrationForm.get('name')?.errors?.['minlength']">Full Name should be minimum 3
                     alphabets.</div>
             </div>
         </div>
@@ -15,33 +15,35 @@
         <div>
             <label for="mobile_number">Mobile Number: *</label>
             <input type="tel" class="form-control" id="mobile_number" name="mobile_number" formControlName="mobile">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('mobile')?.invalid && (RegistrationForm.get('mobile')?.dirty || RegistrationForm.get('mobile')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                    alphabets.</div>
+                <div *ngIf="RegistrationForm.get('mobile')?.errors?.['required']">mobile is required.</div>
+                <div *ngIf="RegistrationForm.get('mobile')?.errors?.['pattern']">Please enter valid mobile number!</div>
+                <div *ngIf="RegistrationForm.get('mobile')?.errors?.['numberExists']">Mobile Number Already Registered!
+                </div>
             </div>
         </div>
         <br>
         <div>
             <label for="email">Email: *</label>
             <input type="email" class="form-control" id="email" name="email" formControlName="email">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('email')?.invalid && (RegistrationForm.get('email')?.dirty || RegistrationForm.get('email')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                    alphabets.</div>
+                <div *ngIf="RegistrationForm.get('email')?.errors?.['required']">email is required.</div>
+                <div *ngIf="RegistrationForm.get('email')?.errors?.['email']">Please enter valid email!</div>
+                <div *ngIf="RegistrationForm.get('email')?.errors?.['emailExists']">Email Already Registered!</div>
+
             </div>
         </div>
         <br>
         <div>
             <label for="password">Password: *</label>
             <input type="password" class="form-control" id="password" name="password" formControlName="password">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('password')?.invalid && (RegistrationForm.get('password')?.dirty || RegistrationForm.get('password')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                    alphabets.</div>
+                <div *ngIf="RegistrationForm.get('password')?.errors?.['required']">Password is required.</div>
+                <div *ngIf="RegistrationForm.get('password')?.errors?.['minlength']">Full Name should be minimum 8
+                    character.</div>
             </div>
         </div>
         <br>
@@ -49,21 +51,21 @@
             <label for="confirm_password">Confirm Password: *</label>
             <input type="password" class="form-control" id="confirm_password" name="confirm_password"
                 formControlName="confirm">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('confirm')?.invalid && (RegistrationForm.get('confirm')?.dirty || RegistrationForm.get('confirm')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                    alphabets.</div>
+                <div *ngIf="RegistrationForm.get('confirm')?.errors?.['required']">Confirm password is required.</div>
+                <div *ngIf="RegistrationForm.get('confirm')?.errors?.['passwordMismatch']">Passwords do not match.</div>
             </div>
         </div>
         <br>
         <div>
             <label for="date_of_birth">Date of Birth: *</label>
-            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" formControlName="dob">
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <input type="date" class="form-control" id="date_of_birth" max="01-01-2022" name="date_of_birth"
+                formControlName="dob">
+            <div *ngIf="isSubmitted || RegistrationForm.get('dob')?.invalid && (RegistrationForm.get('dob')?.dirty || RegistrationForm.get('dob')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
+                <div *ngIf="RegistrationForm.get('dob')?.errors?.['required']">Date Of Birth is required.</div>
+                <div *ngIf="RegistrationForm.get('dob')?.errors?.['minLength']">Full dob should be minimum 3
                     alphabets.</div>
             </div>
         </div>
@@ -80,41 +82,37 @@
                     value="female">
                 <label class="form-check-label" for="female">Female</label>
             </div>
-            <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
+            <div *ngIf="isSubmitted || RegistrationForm.get('gender')?.invalid && (RegistrationForm.get('gender')?.dirty || RegistrationForm.get('gender')?.touched)"
                 class="text-danger">
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                    alphabets.</div>
+                <div *ngIf="RegistrationForm.get('gender')?.errors?.['required']">Select gender</div>
             </div>
         </div>
         <br>
         <div>
-            <label>Hobbies: *</label>
+            <label>Hobbies: </label>
             <div>
                 <div class="form-check">
-                    <input class="form-check-input hobby" type="checkbox" id="reading" name="hobbies[]" value="reading">
-                    <label class="form-check-label" for="reading" formControlName="hobbies">Reading</label>
+                    <input class="form-check-input hobby" type="checkbox" id="reading"
+                        (change)="onHobbiesChange($event)" value="reading">
+                    <label class="form-check-label" for="reading">Reading</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input hobby" type="checkbox" id="dancing" name="hobbies[]" value="dancing">
-                    <label class="form-check-label" for="dancing" formControlName="hobbies">Dancing</label>
+                    <input class="form-check-input hobby" type="checkbox" id="dancing"
+                        (change)="onHobbiesChange($event)" value="dancing">
+                    <label class="form-check-label" for="dancing">Dancing</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input hobby" type="checkbox" id="coding" name="hobbies[]" value="coding">
-                    <label class="form-check-label" for="coding" formControlName="hobbies">Coding</label>
-                </div>
-                <div *ngIf="RegistrationForm.get('name')?.invalid && (RegistrationForm.get('name')?.dirty || RegistrationForm.get('name')?.touched)"
-                    class="text-danger">
-                    <div *ngIf="RegistrationForm.get('name')?.errors?.['required']">Full Name is required.</div>
-                    <div *ngIf="RegistrationForm.get('name')?.errors?.['minLength']">Full Name should be minimum 3
-                        alphabets.</div>
+                    <input class="form-check-input hobby" type="checkbox" id="coding" (change)="onHobbiesChange($event)"
+                        value="coding">
+                    <label class="form-check-label" for="coding">Coding</label>
                 </div>
             </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-success" [disabled]="RegistrationForm.invalid">Register</button>
-        <br>
+        <button type="submit" class="btn btn-success">Register</button>
+        <hr>
+        Already Registered User?
         <a [routerLink]="['login']">Login</a>
+        <br>
     </form>
-
 </div>

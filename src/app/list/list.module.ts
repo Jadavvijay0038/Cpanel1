@@ -3,15 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { ListRoutingModule } from './list-routing.module';
 import { ListComponent } from './list.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms'
 
+import { FilterPipe } from '../filter.pipe'
 
 @NgModule({
   declarations: [
-    ListComponent
+    ListComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,
-    ListRoutingModule
+    ListRoutingModule,
+    NgxPaginationModule,
+    FormsModule
   ]
 })
 export class ListModule { }

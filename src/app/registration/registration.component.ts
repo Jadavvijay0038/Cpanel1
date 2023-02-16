@@ -15,13 +15,15 @@ export class RegistrationComponent implements OnInit {
   isSubmitted: boolean = false;
   hobbies = [];
   AlluserData: Array<userdata> = [];
-
+  isNewUser:boolean = true;
+  updateindex:any;
   constructor(private fb: FormBuilder,
     private router: Router,
     private uniqueNumberValidator: UniqueNumberValidator,
     private UniqueEmailValidator: UniqueEmailValidator,
     private route: ActivatedRoute) { }
   ngOnInit(): void {
+    
     this.AlluserData = JSON.parse(localStorage.getItem('userdata') || '[]');
 
     
@@ -38,7 +40,12 @@ export class RegistrationComponent implements OnInit {
     }, { validators: this.passwordMatchValidator });
 
     this.route.queryParams.subscribe(params => {
-      this, this.RegistrationForm.setValue(this.AlluserData[params['index']]);
+      this.updateindex = params['index'];
+      let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
+      userdata.splice(this.updateindex,1);
+      localStorage.setItem('userdata', JSON.stringify(userdata));
+      this.isNewUser = params['index'] ? false : true
+      this, this.RegistrationForm.patchValue(this.AlluserData[params['index']]);
     });
     this.RegistrationForm.get('dob')?.valueChanges.subscribe(x => {
       const dob = new Date(x);
@@ -83,12 +90,19 @@ export class RegistrationComponent implements OnInit {
 
     if (this.RegistrationForm.valid) {
       try {
-        let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
-        userdata.push(this.RegistrationForm.value);
-        localStorage.setItem('userdata', JSON.stringify(userdata));
-        console.log(this.RegistrationForm.value);
-        alert("User Registered Successfully!")
-        this.router.navigate(['login']);
+        if(this.isNewUser){
+          let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
+          userdata.push(this.RegistrationForm.value);
+          localStorage.setItem('userdata', JSON.stringify(userdata));
+          console.log(this.RegistrationForm.value);
+          alert("User Registered Successfully!")
+          this.router.navigate(['login']);
+        } else {
+          let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
+          let newArray = [...userdata.slice(0, this.updateindex), this.RegistrationForm.value, ...userdata.slice(this.updateindex)];
+          localStorage.setItem('userdata', JSON.stringify(newArray));
+          this.router.navigate(['list']);
+        }
       } catch (error) {
         console.error('Error retrieving or storing userdata:', error);
       }

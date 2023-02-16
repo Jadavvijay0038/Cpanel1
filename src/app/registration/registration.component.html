@@ -109,10 +109,14 @@
             </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-success">Register</button>
-        <hr>
-        Already Registered User?
-        <a [routerLink]="['login']">Login</a>
-        <br>
+        <button *ngIf="isNewUser" type="submit" class="btn btn-success">Register</button>
+        <button *ngIf="!isNewUser" type="submit" class="btn btn-success">Update</button>
+        <div *ngIf="isNewUser">
+            <hr>
+            Already Registered User?
+            <a *ngIf="isNewUser" [routerLink]="['login']">Login</a>
+            <br>
+        </div>
+
     </form>
 </div>

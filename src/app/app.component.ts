@@ -2,18 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { userdata } from './userdata';
 import { Router } from '@angular/router';
 import { faker } from '@faker-js/faker';
-
+import * as dateFns from 'date-fns';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
 
   AlluserData: Array<userdata> = [];
-
   defaultUser: userdata = {
     name: "vijay",
     password: "12345",
@@ -29,14 +27,17 @@ export class AppComponent implements OnInit{
     localStorage.setItem('userdata', JSON.stringify(this.AlluserData));
   }
   ngOnInit(): void {
-    for(let i=0;i<100;i++){
+    const startDate = dateFns.subYears(new Date(), 60);
+    const endDate = dateFns.subYears(new Date(), 18);
+    for (let i = 0; i < 100; i++) {
+      const birthdate = faker.date.between(startDate, endDate)
       let data: userdata = {
         hobbies: faker.helpers.arrayElement(['reading', 'dancing', 'Coding']),
         name: faker.name.fullName(),
-        mobile: faker.phone.phoneNumber(),
+        mobile: (Math.floor(Math.random() * 9000000000) + 1000000000).toString(),
         email: faker.internet.email(),
-        password:faker.internet.password(),
-        dob: faker.date.past(20).toISOString(),
+        password: faker.internet.password(),
+        dob: dateFns.format(birthdate, 'dd-MM-yyyy'),
         gender: faker.name.sexType(),
         usertype: 0
       }

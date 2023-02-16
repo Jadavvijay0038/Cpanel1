@@ -15,61 +15,62 @@ export class RegistrationComponent implements OnInit {
   isSubmitted: boolean = false;
   hobbies = [];
   AlluserData: Array<userdata> = [];
-  isNewUser:boolean = true;
-  updateindex:any;
+  isNewUser: boolean = true;
+  updateindex: any;
   constructor(private fb: FormBuilder,
     private router: Router,
     private uniqueNumberValidator: UniqueNumberValidator,
     private UniqueEmailValidator: UniqueEmailValidator,
     private route: ActivatedRoute) { }
+
   ngOnInit(): void {
-    
     this.AlluserData = JSON.parse(localStorage.getItem('userdata') || '[]');
 
-    
     this.RegistrationForm = this.fb.group({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email], [this.UniqueEmailValidator.validate.bind(this.UniqueEmailValidator)]),
-      mobile: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')], [this.uniqueNumberValidator.validate.bind(this.uniqueNumberValidator)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      confirm: new FormControl('', [Validators.required]),
-      dob: new FormControl('', [Validators.required]),
-      gender: new FormControl('', [Validators.required]),
-      hobbies: new FormControl(''),
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email], [this.UniqueEmailValidator.validate.bind(this.UniqueEmailValidator)]],
+      mobile: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')], [this.uniqueNumberValidator.validate.bind(this.uniqueNumberValidator)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm: ['', Validators.required],
+      dob: ['', Validators.required],
+      gender: ['', Validators.required],
+      hobbies: '',
       usertype: 0
     }, { validators: this.passwordMatchValidator });
 
     this.route.queryParams.subscribe(params => {
       this.updateindex = params['index'];
-      let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
-      userdata.splice(this.updateindex,1);
-      localStorage.setItem('userdata', JSON.stringify(userdata));
-      this.isNewUser = params['index'] ? false : true
-      this, this.RegistrationForm.patchValue(this.AlluserData[params['index']]);
+      if (this.updateindex !== undefined) {
+        let userdata = JSON.parse(localStorage.getItem('userdata') || '[]');
+        userdata.splice(this.updateindex, 1);
+        localStorage.setItem('userdata', JSON.stringify(userdata));
+        this.isNewUser = false;
+        this.RegistrationForm.patchValue(this.AlluserData[this.updateindex]);
+      } else {
+        this.isNewUser = true;
+      }
     });
+
     this.RegistrationForm.get('dob')?.valueChanges.subscribe(x => {
       const dob = new Date(x);
       const date = new Date();
       if (dob > date) {
-        alert("please select valid Date of birth");
+        alert('Please select a valid date of birth.');
         this.RegistrationForm.get('dob')?.setValue('1990-01-01');
       }
-    })
-
+    });
   }
 
   onHobbiesChange(event: Event) {
-    let a = [];
     const checkbox = event.target as HTMLInputElement;
     const hobbies = this.RegistrationForm.get('hobbies');
-    a = hobbies?.value?.split(',');
+    let a = hobbies?.value ? hobbies.value.split(',') : [];
     if (checkbox.checked) {
       a.push(checkbox.value);
     } else {
-      const index = a.findIndex((x: { value: string; }) => x.value === checkbox.value);
-      a.splice(index, 1);
+      a = a.filter((value: string) => value !== checkbox.value);
     }
-    this.RegistrationForm.get('hobbies')?.setValue(a.join(","));
+    this.RegistrationForm.get('hobbies')?.setValue(a.join(','));
   }
 
   passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -86,28 +87,23 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
     this.isSubmitted = true;
-    console.log(this.RegistrationForm.controls);
-
     if (this.RegistrationForm.valid) {
       try {
-        if(this.isNewUser){
-          let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
+        let userdata = JSON.parse(localStorage.getItem('userdata') || '[]');
+        if (this.isNewUser) {
           userdata.push(this.RegistrationForm.value);
-          localStorage.setItem('userdata', JSON.stringify(userdata));
-          console.log(this.RegistrationForm.value);
-          alert("User Registered Successfully!")
+          alert('User registered successfully!');
           this.router.navigate(['login']);
         } else {
-          let userdata = JSON.parse(localStorage.getItem('userdata') || '[]')
-          let newArray = [...userdata.slice(0, this.updateindex), this.RegistrationForm.value, ...userdata.slice(this.updateindex)];
-          localStorage.setItem('userdata', JSON.stringify(newArray));
+          userdata.splice(this.updateindex, 1, this.RegistrationForm.value);
           this.router.navigate(['list']);
         }
+        localStorage.setItem('userdata', JSON.stringify(userdata));
       } catch (error) {
         console.error('Error retrieving or storing userdata:', error);
       }
     } else {
-      alert("Fill required Details.....");
+      alert('Please fill in the required details.');
     }
   }
 }

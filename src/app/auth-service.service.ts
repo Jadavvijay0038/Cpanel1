@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthServiceService {
 
   constructor() { }
+  private valueToCheck = new BehaviorSubject<string>('false');
 
   checkUsername(username: string, password: string): boolean {
     const userdata = JSON.parse(localStorage.getItem('userdata') || '[]');

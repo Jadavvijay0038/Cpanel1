@@ -30,6 +30,11 @@ export class ListComponent implements OnInit {
   }
 
   updatedata(i: number) {
-    this.router.navigate(['/registration'], { queryParams: { index:i} });
+    this.router.navigate(['/registration'], { queryParams: { index: i } });
+  }
+  Logout() {
+    localStorage.setItem('islogin', 'false');
+    sessionStorage.removeItem('loginuser')
+    this.router.navigate(['./login'])
   }
 }

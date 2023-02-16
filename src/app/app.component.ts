@@ -3,6 +3,7 @@ import { userdata } from './userdata';
 import { Router } from '@angular/router';
 import { faker } from '@faker-js/faker';
 import * as dateFns from 'date-fns';
+import { AuthServiceService } from './auth-service.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import * as dateFns from 'date-fns';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  isLoggedIn:any = false;
   AlluserData: Array<userdata> = [];
   defaultUser: userdata = {
     name: "vijay",
@@ -22,11 +23,14 @@ export class AppComponent implements OnInit {
     usertype: 1,
     hobbies: 'Coding'
   }
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    private AuthService:AuthServiceService) {
+    
     this.AlluserData.push(this.defaultUser);
     localStorage.setItem('userdata', JSON.stringify(this.AlluserData));
   }
   ngOnInit(): void {
+    this.isLoggedIn = this.AuthService.checkislogin();
     const startDate = dateFns.subYears(new Date(), 60);
     const endDate = dateFns.subYears(new Date(), 18);
     for (let i = 0; i < 100; i++) {
@@ -46,9 +50,5 @@ export class AppComponent implements OnInit {
     localStorage.setItem('userdata', JSON.stringify(this.AlluserData));
   }
   title = 'Cpanel';
-  Logout() {
-    localStorage.setItem('islogin', 'false');
-    sessionStorage.removeItem('loginuser')
-    this.router.navigate(['./login'])
-  }
+ 
 }

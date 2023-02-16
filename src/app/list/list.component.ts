@@ -27,6 +27,8 @@ export class ListComponent implements OnInit {
   DeleteUser(i: number) {
     this.AlluserData.splice(i, 1);
     localStorage.setItem('userdata', JSON.stringify(this.AlluserData));
+    this.AlluserData = JSON.parse(localStorage.getItem('userdata') || '[]');
+    this.totalItems = this.AlluserData.length
   }
 
   updatedata(i: number) {

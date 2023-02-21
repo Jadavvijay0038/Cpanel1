@@ -18,10 +18,12 @@
             <div *ngIf="myForm.get('password')?.errors?.['required']" style="color:red">Password is required.</div>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
-        <br>
-        <hr>
-        Haven't seen this form earlier?
-        <a [routerLink]="['../registration']">Register</a>
+        <div class="footer">
+            <hr>
+            Haven't seen this form earlier?
+            <a [routerLink]="['../registration']">Register</a>
+            <br>
+        </div>
     </form>
 </div>
 <div>

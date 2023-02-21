@@ -32,7 +32,6 @@
                 <div *ngIf="RegistrationForm.get('email')?.errors?.['required']">email is required.</div>
                 <div *ngIf="RegistrationForm.get('email')?.errors?.['email']">Please enter valid email!</div>
                 <div *ngIf="RegistrationForm.get('email')?.errors?.['emailExists']">Email Already Registered!</div>
-
             </div>
         </div>
         <br>
@@ -111,12 +110,11 @@
         <br>
         <button *ngIf="isNewUser" type="submit" class="btn btn-success">Register</button>
         <button *ngIf="!isNewUser" type="submit" class="btn btn-success">Update</button>
-        <div *ngIf="isNewUser">
+        <div class="footer" *ngIf="isNewUser">
             <hr>
             Already Registered User?
             <a *ngIf="isNewUser" [routerLink]="['login']">Login</a>
             <br>
         </div>
-
     </form>
 </div>
